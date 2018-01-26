@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params>
+  <selectResultPath>selectResult.txt</selectResultPath>
+  <downSouceTxt>selectResult.txt</downSouceTxt>  <!--其实这些都最好还是用路径来表示，而不只是这个文件名，一会可以好好修改一下-->
+  <compileTxt>selectResult.txt</compileTxt>
+  <!--一般来说，这三个的路径都是一样的，只是不确定是否有必要全部写出来-->
+  <!--如果全部写出来的话，我们的路径实际上是可以不用，还是写出来吧，大不了，到时候只进行编译的时候，大不了就设置selectResult.txt内容为空，这样的话，就不用进行下载了，直接设置selectKey为null或者没有这个结点，则直接表示没有设么需要的-->
+  <selectKeys>
+    <selectKey>
+      <value>MapTouchSample</value>
+    </selectKey>
+  </selectKeys>
+</params>

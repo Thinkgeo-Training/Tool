@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MapTouch>
+  <projectCompileResult>
+    <MapTouchProjectCompileStatus>compile success</MapTouchProjectCompileStatus>
+    <xwuhlgofProjectCompileStatus>compile success</xwuhlgofProjectCompileStatus>
+  </projectCompileResult>
+  <projectCompileMessage>
+    <MapTouch />
+    <xwuhlgof>
+      <MainWindowxamlcs warningFile="true">
+        <warning1>
+          <location>(27,67)</location>
+          <infoCode>CS0618</infoCode>
+          <description>“ThinkGeo.MapSuite.Styles.PointStyles.City1”已过时:“We suggest you use the new static class WorldStreetsPointStyles as it has updated and better looking styles.”</description>
+        </warning1>
+        <warning2>
+          <location>(27,67)</location>
+          <infoCode>CS0618</infoCode>
+          <description>“ThinkGeo.MapSuite.Styles.PointStyles.City1”已过时:“We suggest you use the new static class WorldStreetsPointStyles as it has updated and better looking styles.”</description>
+        </warning2>
+      </MainWindowxamlcs>
+    </xwuhlgof>
+  </projectCompileMessage>
+</MapTouch>
