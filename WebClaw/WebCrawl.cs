@@ -28,14 +28,14 @@ namespace Tool
             WriteResult(resultPath);
         }
 
-        public string CrawlByKeys(Collection<string> keys)
+        public string CrawlByKeys(Collection<string> keys) 
         {
             Collection<string> allLinks = GetAllPageLinks();
             foreach (string link in allLinks)
             {
                 if (keys.Count > 0)
                 {
-                    string html = visitUrl(link);
+                    string html = VisitUrl(link);
                     for (var i = 0; i < keys.Count; i++)
                     {
                         Regex regexKey = new Regex(@"a[\s]+href=(?:""|')/" + codeWareHouse + @"/([^<>""']*)" + keys[i] + @"([^<>""']*)(?:""|')", RegexOptions.IgnoreCase);
@@ -48,7 +48,9 @@ namespace Tool
                             Console.WriteLine(r);
                             if (r.Equals(keys[i]))
                             {
+                                result += r + "\r\n";
                                 keys.RemoveAt(i);
+                                i--;
                                 break;
                             }
                             result += r + "\r\n";
@@ -61,7 +63,7 @@ namespace Tool
 
         public Collection<string> GetAllPageLinks()
         {
-            string html = visitUrl(BaseUrl);
+            string html = VisitUrl(BaseUrl);
             string pagination = "";
             int paginationIndex = html.IndexOf(@"<div class=""pagination"">");
             string restStr = html.Substring(paginationIndex);
@@ -78,13 +80,19 @@ namespace Tool
             return links;
         }
 
-        public string visitUrl(string url)
+        public string VisitUrl(string url) 
         {
-            WebRequest request = WebRequest.Create(url.Trim());
-            WebResponse response = request.GetResponse();
-            Stream resStream = response.GetResponseStream();
-            StreamReader streamReader = new StreamReader(resStream, Encoding.Default);
-            StringBuilder stringBuilder = new StringBuilder();
+            WebRequest request;
+            WebResponse response;
+            Stream resStream;
+            StreamReader streamReader;
+            StringBuilder stringBuilder;
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            request = WebRequest.Create(url.Trim());
+            response = request.GetResponse();
+            resStream = response.GetResponseStream();
+            streamReader = new StreamReader(resStream, Encoding.Default);
+            stringBuilder = new StringBuilder();
             while ((url = streamReader.ReadLine()) != null)
             {
                 stringBuilder.Append(url);
@@ -100,5 +108,6 @@ namespace Tool
             sw.Write(result);
             sw.Close();
         }
+
     }
 }

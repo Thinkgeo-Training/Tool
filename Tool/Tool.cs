@@ -10,6 +10,7 @@ namespace Tool
         {
             Collection<string> keys = GetSelectKeys();
             string path = GetSelectResultPath();
+            Console.WriteLine(path);
             if (path == null)
             {
                 Console.WriteLine("No search keyword set, the program ends");
@@ -20,14 +21,35 @@ namespace Tool
             Console.WriteLine("Searching...");
             Console.WriteLine("====================================");
             Console.WriteLine("selectResult:");
-            crawler.Crawl(keys, path);
+            int times = 0;
+            Visit:
+            try
+            {
+                crawler.Crawl(keys, path);  //这个也就是说无论咋样，只要这个爬虫模块除了问题都重新来过，其余的模块与他相似
+            }
+            catch (Exception ex)
+            {
+                if (++times <= 5)
+                {
+                    Console.WriteLine("An error occurred during the search process and the {0} times attempt is under way", times);
+                    goto Visit;
+                }
+                else
+                {
+                    Console.WriteLine("An error occurred during the search process,the program abort");
+                    Console.WriteLine(ex);
+                    Environment.Exit(0);  //其实不应该是返回0的
+                }
+            }
             Console.WriteLine("====================================");
             Console.WriteLine("Search end, start downloading sample");
             DownloadProject downloadProject = new DownloadProject();
             downloadProject.DownloadProjects(path);
+            //等下载的时候，就把
             Console.WriteLine("Download end, start compiling ");
-            Compile compile = new Compile();
-            compile.CompileProjects(path);
+            //Compile compile = new Compile();
+            //compile.CompileProjects(path);
+            //
             Console.WriteLine("Compile end");
         }
 
