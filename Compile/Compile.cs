@@ -6,6 +6,8 @@ namespace Tool
 {
     public class Compile
     {
+        private string dateTime = string.Empty;
+        public string CompileDateTime { get => dateTime; set => dateTime = value; }
         public void CompileProjects(string compileTxt)
         {
             string currentPath = Directory.GetCurrentDirectory();
@@ -18,7 +20,8 @@ namespace Tool
             string diskDriveCMD = currentPath.Substring(0, 2) + " & cd " + currentPath;
             string compileTxtPath = currentPath + "\\" + compileTxt;
             //Setting up the log generation directory
-            string dateTime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+            if(dateTime.Equals(string.Empty))
+                dateTime = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
             string projectPath = Directory.GetParent("../../../Result/Project") + @"/Project";
             string logDirctoryPath = Directory.GetParent("../../../Result/Log") + @"/Log/" + dateTime;
             if (!File.Exists(nugetPath))
@@ -56,6 +59,7 @@ namespace Tool
             compile.Start();
             compile.StandardInput.WriteLine(diskDriveCMD);
             string[] projectNames = File.ReadAllLines(compileTxtPath);
+
             foreach (var item in projectNames)
             {
                 var files = Directory.GetFiles(projectPath + @"/" + item, "*.sln");

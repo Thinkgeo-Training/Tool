@@ -25,7 +25,7 @@ namespace Tool
             Visit:
             try
             {
-                crawler.Crawl(keys, path);  //这个也就是说无论咋样，只要这个爬虫模块除了问题都重新来过，其余的模块与他相似
+                crawler.Crawl(keys, path); 
             }
             catch (Exception ex)
             {
@@ -38,18 +38,53 @@ namespace Tool
                 {
                     Console.WriteLine("An error occurred during the search process,the program abort");
                     Console.WriteLine(ex);
-                    Environment.Exit(0);  //其实不应该是返回0的
+                    Environment.Exit(0);  
                 }
             }
             Console.WriteLine("====================================");
-            Console.WriteLine("Search end, start downloading sample");
+            Console.WriteLine("Search end, start downloading sample...");
+            times = 0;
             DownloadProject downloadProject = new DownloadProject();
-            downloadProject.DownloadProjects(path);
-            //等下载的时候，就把
-            Console.WriteLine("Download end, start compiling ");
-            //Compile compile = new Compile();
-            //compile.CompileProjects(path);
-            //
+            Download:
+            try
+            {
+                downloadProject.DownloadProjects(path);
+            } catch (Exception ex)
+            {
+                if (++times <= 5)
+                {
+                    Console.WriteLine("An error occurred during the download process and the {0} times attempt is under way", times);
+                    goto Download;
+                }
+                else
+                {
+                    Console.WriteLine("An error occurred during the download process,the program abort");
+                    Console.WriteLine(ex);
+                    Environment.Exit(0);  
+                }
+            }
+            Console.WriteLine("Download end, start compiling... ");
+            Compile compile = new Compile();
+            times = 0;
+            Compile:
+            try
+            {
+                compile.CompileProjects(path);
+            }
+            catch (Exception ex)
+            {
+                if (++times <= 5)
+                {
+                    Console.WriteLine("An error occurred during the compile process and the {0} times attempt is under way", times);
+                    goto Compile;
+                }
+                else
+                {
+                    Console.WriteLine("An error occurred during the compile process,the program abort");
+                    Console.WriteLine(ex);
+                    Environment.Exit(0);
+                }
+            }
             Console.WriteLine("Compile end");
         }
 
